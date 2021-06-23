@@ -35,7 +35,7 @@ agent initializeAgent(int number)
     }
 
     //if string lenght is equal row lenght asign string to map
-    for (size_t i = 0; i < column; i++)
+    for (size_t i = 0; i < row; i++)
     {
         cin >> mapLine;
         for (size_t j = 0; j < column; j++)
@@ -63,31 +63,161 @@ void print(char **map, int row, int column)
 }
 int fib(int n)
 {
-    if (n <= 1)
+    if (n == 0)
+    {
+        return 0;
+    }
+    else if (n == 1 || n == 2)
     {
         return 1;
     }
-    return fib(n) + fib(n - 1);
+    return fib(n - 1) + fib(n - 2);
 }
 
-bool readLetter(string secretWord, char **map, int maxrow, int maxColumn, int row = 0, int column = 0)
+bool fibonacciSuccession(int n)
 {
-    // bool equal = map[row][column] == secretWord[0];
-    // string ToPrint = equal ? "True": "False";
-    // cout << ToPrint<<endl;
+    int i = 3;
+    int fibonacci = 0;
+    do
+    {
+        fibonacci = fib(i);
+        i++;
+    } while (fibonacci < n);
+
+    return fibonacci == n;
+}
+
+void rotateRow(char **map, int row, int column)
+{
+    char firstColumn[row];
+    int index = 0;
+
+    for (size_t i = 0; i < column; i++)
+    {
+        firstColumn[i] = map[i][0];
+    }
+    for (size_t i = 0; i < column; i++)
+    {
+        for (size_t j = 0; j < row; j++)
+        {
+            if (i < row - 1)
+            {
+
+                map[i][j] = map[i + 1][j];
+            }
+            else
+            {
+                map[i][j] = firstColumn[index];
+                index += 1;
+            }
+        }
+    }
+}
+void rotateColumn(char **map, int row, int column)
+{
+
+    char firstColumn[column];
+    int index = 0;
+
+    for (size_t i = 0; i < column; i++)
+    {
+        firstColumn[i] = map[0][i];
+        // cout << map[0][i] <<endl;
+    }
+
+    for (size_t i = 0; i < row; i++)
+    {
+
+        for (size_t j = 0; j < column; j++)
+        {
+            if (j < column - 1)
+            {
+
+                map[i][j] = map[i][j + 1];
+            }
+            else
+            {
+                map[i][j] = firstColumn[index];
+                index += 1;
+            }
+        }
+    }
+}
+
+//backtraking
+void rotate(int moment, char **map, int maxRow, int maxColumn)
+{
+    if (moment % 2 == 0)
+    {
+        rotateColumn(map, maxRow, maxColumn);
+    }
+    else
+    {
+        rotateRow(map, maxRow, maxColumn);
+    }
+}
+
+bool readLetter(string secretWord, char **map, int maxrow, int maxColumn, int row = 0, int column = 0, int letterCount = 0, int moment = 0)
+{
+    bool find = true;
+    moment += 1;
+    // print(map, maxrow, maxColumn);
 
     if (map[row][column] == secretWord[0])
     {
         map[row][column] = '.';
+        letterCount += 1;
         secretWord = secretWord.substr(1, secretWord.length() - 1);
-        bool find = readLetter(secretWord, map, row++, column);
-        
-        if (!find){
-            // if (readLetter(secretWord, map, row+2, column))
+
+        if (secretWord.length() > 0)
+        {
+
+            if (letterCount >= 4 && fibonacciSuccession(letterCount))
+            {
+                rotate(moment, map, maxrow, maxColumn);
+            }
+
+            if (maxrow - 1 > row)
+            {
+                find = readLetter(secretWord, map, maxrow, maxColumn, row + 1, column, letterCount, moment);
+                if (find)
+                {
+                    return true;
+                }
+            }
+            else if (maxColumn - 1 > column)
+            {
+                find = readLetter(secretWord, map, maxrow, maxColumn, 0, column + 1, letterCount, moment);
+                if (find)
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            return true;
         }
     }
     else
     {
+        if (maxrow - 1 > row)
+        {
+            find = readLetter(secretWord, map, maxrow, maxColumn, row + 1, column, letterCount, moment);
+            if (find)
+            {
+                return true;
+            }
+        }
+        else if (maxColumn - 1 > column)
+        {
+            find = readLetter(secretWord, map, maxrow, maxColumn, 0, column + 1, letterCount, moment);
+            if (find)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 }
@@ -97,7 +227,7 @@ int main()
     int personCount;
 
     cin >> personCount;
-    const int PERSONCOUNT = personCount;
+    // const int PERSONCOUNT = personCount;
     agent *agents = new agent[personCount];
 
     for (int i = 0; i < personCount; i++)
@@ -105,6 +235,8 @@ int main()
         agents[i] = initializeAgent(i);
         bool rescue = readLetter(agents[i].hiddenWord, agents[i].map, agents[i].row, agents[i].column);
         agents[i].rescue = rescue;
+        // rotateColumn(agents[i].map, agents[i].row, agents[i].column);
+        // print(agents[i].map, agents[i].row, agents[i].column);
     }
 
     // print(agents[0].map, agents[0].row, agents[0].column);
