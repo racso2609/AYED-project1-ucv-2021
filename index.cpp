@@ -17,9 +17,9 @@ agent initializeAgent(int number)
 {
     int row = 3, column = 8;
 
-    string mapLine, hiddenWord = "abcdefghi";
-    // cin >> row >> column;
-    // cin >> hiddenWord;
+    string mapLine, hiddenWord;
+    cin >> row >> column;
+    cin >> hiddenWord;
 
     agent newAgent;
     newAgent.agentNumber = number;
@@ -37,9 +37,9 @@ agent initializeAgent(int number)
     //if string lenght is equal row lenght asign string to map
     for (size_t i = 0; i < row; i++)
     {
-        // cin >> mapLine;
-        mapLine = i == 0 ? "i......h" : i == 1 ? "........"
-                                               : "abcd.efg";
+        cin >> mapLine;
+        // mapLine = i == 0 ? "i......h" : i == 1 ? "........"
+        //    : "abcd.efg";
         for (size_t j = 0; j < column; j++)
         {
 
@@ -263,7 +263,7 @@ int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int r
     // derecha
     if (maxColumn - 1 > column && !find && map[row][column + 1] != '-')
     {
-        printFlags(map, maxRow, maxColumn, 0, row, column);
+        // printFlags(map, maxRow, maxColumn, 0, row, column);
 
         toReturn = map[row][column + 1] == secretChar ? 0 : -1;
         find = toReturn != -1 ? true : false;
@@ -272,7 +272,7 @@ int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int r
 
     if (maxRow - 1 > row && maxColumn - 1 > column && !find && map[row + 1][column + 1] != '-')
     {
-        printFlags(map, maxRow, maxColumn, 1, row, column);
+        // printFlags(map, maxRow, maxColumn, 1, row, column);
 
         toReturn = map[row + 1][column + 1] == secretChar ? 1 : -1;
         find = toReturn != -1 ? true : false;
@@ -280,7 +280,7 @@ int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int r
     // abajo
     if (maxRow - 1 > row && !find && map[row + 1][column] != '-')
     {
-        printFlags(map, maxRow, maxColumn, 2, row, column);
+        // printFlags(map, maxRow, maxColumn, 2, row, column);
 
         toReturn = map[row + 1][column] == secretChar ? 2 : -1;
         find = toReturn != -1 ? true : false;
@@ -288,7 +288,7 @@ int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int r
     // abajo izq
     if (column > 0 && maxRow - 1 > row && !find && map[row + 1][column - 1] != '-')
     {
-        printFlags(map, maxRow, maxColumn, 3, row, column);
+        // printFlags(map, maxRow, maxColumn, 3, row, column);
 
         toReturn = map[row + 1][column - 1] == secretChar ? 3 : -1;
         find = toReturn != -1 ? true : false;
@@ -297,7 +297,7 @@ int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int r
 
     if (column > 0 && !find && map[row][column - 1] != '-')
     {
-        printFlags(map, maxRow, maxColumn, 4, row, column);
+        // printFlags(map, maxRow, maxColumn, 4, row, column);
 
         toReturn = map[row][column - 1] == secretChar ? 4 : -1;
         find = toReturn != -1 ? true : false;
@@ -306,7 +306,7 @@ int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int r
 
     if (row > 0 && column > 0 && !find && map[row - 1][column - 1] != '-')
     {
-        printFlags(map, maxRow, maxColumn, 5, row, column);
+        // printFlags(map, maxRow, maxColumn, 5, row, column);
 
         toReturn = map[row - 1][column - 1] == secretChar ? 5 : -1;
         find = toReturn != -1 ? true : false;
@@ -314,7 +314,7 @@ int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int r
     //  arriba
     if (row > 0 && !find && map[row - 1][column] != '-')
     {
-        printFlags(map, maxRow, maxColumn, 6, row, column);
+        // printFlags(map, maxRow, maxColumn, 6, row, column);
 
         toReturn = map[row - 1][column] == secretChar ? 6 : -1;
         find = toReturn != -1 ? true : false;
@@ -323,7 +323,7 @@ int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int r
 
     if (row > 0 && maxColumn - 1 > column && !find && map[row - 1][column + 1] != '-')
     {
-        printFlags(map, maxRow, maxColumn, 7, row, column);
+        // printFlags(map, maxRow, maxColumn, 7, row, column);
 
         toReturn = map[row - 1][column + 1] == secretChar ? 7 : -1;
         find = toReturn != -1 ? true : false;
@@ -348,18 +348,15 @@ bool readLetter(string secretword, char **map, int maxRow, int maxColumn, int ro
             return true;
         }
     }
-    if (letterCount >= 4 && fibonacciSuccession(letterCount))
+    if (letterCount > 3 && fibonacciSuccession(letterCount))
     {
         rotate(moment, map, maxRow, maxColumn);
     }
 
     int directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-    cout << "direction: " << directionOfmyChar << endl;
-    cout << "newWord: " << newWord << endl;
 
     if (directionOfmyChar == 0)
     {
-
         find = readLetter(newWord, map, maxRow, maxColumn, row, column + 1, letterCount, moment);
     }
     else if (directionOfmyChar == 1)
@@ -390,16 +387,61 @@ bool readLetter(string secretword, char **map, int maxRow, int maxColumn, int ro
     {
         find = readLetter(newWord, map, maxRow, maxColumn, row - 1, column + 1, letterCount, moment);
     }
+    // else
+    // {
+    //     if (maxColumn - 1 > column && !find && map[row][column + 1] != '-')
+    //     {
+    //         find = readLetter(newWord, map, maxRow, maxColumn, row, column + 1, letterCount, moment);
+    //     }
+    //     // derecha abajo
+
+    //     if (maxRow - 1 > row && maxColumn - 1 > column && !find && map[row + 1][column + 1] != '-')
+    //     {
+    //         find = readLetter(newWord, map, maxRow, maxColumn, row + 1, column, letterCount, moment);
+    //     }
+    //     // abajo
+    //     if (maxRow - 1 > row && !find && map[row + 1][column] != '-')
+    //     {
+    //         find = readLetter(newWord, map, maxRow, maxColumn, row + 1, column, letterCount, moment);
+    //     }
+    //     // abajo izq
+    //     if (column > 0 && maxRow - 1 > row && !find && map[row + 1][column - 1] != '-')
+    //     {
+    //         find = readLetter(newWord, map, maxRow, maxColumn, row + 1, column - 1, letterCount, moment);
+    //     }
+    //     // izq
+
+    //     if (column > 0 && !find && map[row][column - 1] != '-')
+    //     {
+    //         find = readLetter(newWord, map, maxRow, maxColumn, row, column - 1, letterCount, moment);
+    //     }
+    //     // izq arriba
+
+    //     if (row > 0 && column > 0 && !find && map[row - 1][column - 1] != '-')
+    //     {
+    //         find = readLetter(newWord, map, maxRow, maxColumn, row - 1, column - 1, letterCount, moment);
+    //     }
+    //     //  arriba
+    //     if (row > 0 && !find && map[row - 1][column] != '-')
+    //     {
+    //         find = readLetter(newWord, map, maxRow, maxColumn, row - 1, column, letterCount, moment);
+    //     }
+    //     // derecha  arriba
+
+    //     if (row > 0 && maxColumn - 1 > column && !find && map[row - 1][column + 1] != '-')
+    //     {
+    //         find = readLetter(newWord, map, maxRow, maxColumn, row - 1, column + 1, letterCount, moment);
+    //     }
+    // }
 
     return find;
 }
 
 int main()
 {
-    int personCount = 1;
+    int personCount;
 
-    // cin >> personCount;
-    // const int PERSONCOUNT = personCount;
+    cin >> personCount;
     agent *agents = new agent[personCount];
 
     for (int i = 0; i < personCount; i++)
@@ -415,11 +457,7 @@ int main()
         }
 
         agents[i].rescue = rescue;
-        // rotateColumn(agents[i].map, agents[i].row, agents[i].column);
-        // print(agents[i].map, agents[i].row, agents[i].column);
     }
-
-    // print(agents[0].map, agents[0].row, agents[0].column);
 
     for (int i = 0; i < personCount; i++)
     {
