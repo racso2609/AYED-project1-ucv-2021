@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+agent	index.cpp	/^struct agent$/;"	s	file:
+agentNumber	index.cpp	/^    int agentNumber;$/;"	m	struct:agent	file:
+column	index.cpp	/^    int column;$/;"	m	struct:agent	file:
+fib	index.cpp	/^int fib(int n)$/;"	f
+fibonacciSuccession	index.cpp	/^bool fibonacciSuccession(int n)$/;"	f
+hiddenWord	index.cpp	/^    string hiddenWord;$/;"	m	struct:agent	file:
+indexOf	index.cpp	/^bool indexOf(int *arr, char toSearch, char **map, int maxRow, int maxColumn, int row = 0, int column = 0)$/;"	f
+initializeAgent	index.cpp	/^agent initializeAgent(int number)$/;"	f
+main	index.cpp	/^int main()$/;"	f
+map	index.cpp	/^    char **map;$/;"	m	struct:agent	file:
+print	index.cpp	/^void print(char **map, int row, int column)$/;"	f
+printFlags	index.cpp	/^void printFlags(char **map, int row, int column, int direction, int ip, int jp)$/;"	f
+readLetter	index.cpp	/^bool readLetter(string secretword, char **map, int maxRow, int maxColumn, char oldChar, int row = 0, int column = 0, int letterCount = 1, int moment = 1)$/;"	f
+rescue	index.cpp	/^    bool rescue;$/;"	m	struct:agent	file:
+rotate	index.cpp	/^void rotate(int moment, char **map, int maxRow, int maxColumn)$/;"	f
+rotateColumn	index.cpp	/^void rotateColumn(char **map, int row, int column)$/;"	f
+rotateRow	index.cpp	/^void rotateRow(char **map, int row, int column)$/;"	f
+row	index.cpp	/^    int row;$/;"	m	struct:agent	file:
+searchFromSide	index.cpp	/^int searchFromSide(char secretChar, char **map, int maxRow, int maxColumn, int row = 0, int column = 0, int direction = 0, int count = 0)$/;"	f
