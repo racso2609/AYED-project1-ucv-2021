@@ -334,7 +334,6 @@ bool readLetter(string secretword, char **map, int maxRow, int maxColumn, char o
 {
     bool find = false;
     string newWord = secretword;
-
     moment += 1;
     if (newWord[0] == map[row][column])
     {
@@ -352,6 +351,7 @@ bool readLetter(string secretword, char **map, int maxRow, int maxColumn, char o
 
     int directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
 
+    std::cout << letterCount << std::endl;
     if (letterCount > 3 && fibonacciSuccession(moment))
     {
         rotate(moment, map, maxRow, maxColumn);
@@ -364,57 +364,58 @@ bool readLetter(string secretword, char **map, int maxRow, int maxColumn, char o
         find = readLetter(newWord, map, maxRow, maxColumn, oldChar, row, column + 1, letterCount, moment);
         map[row][column] = oldChar;
         directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-        letterCount -=1;
+        if(find){
+            letterCount --;
+        }
     }
     if (directionOfmyChar == 1)
     {
         find = readLetter(newWord, map, maxRow, maxColumn, oldChar, row + 1, column + 1, letterCount, moment);
         map[row][column] = oldChar;
         directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-    
-        letterCount -=1;
+            letterCount --;
     }
     if (directionOfmyChar == 2)
     {
         find = readLetter(newWord, map, maxRow, maxColumn, oldChar, row + 1, column, letterCount, moment);
         map[row][column] = oldChar;
         directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-        letterCount -=1;
+            letterCount --;
     }
     if (directionOfmyChar == 3)
     {
         find = readLetter(newWord, map, maxRow, maxColumn, oldChar, row + 1, column - 1, letterCount, moment);
         map[row][column] = oldChar;
         directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-        letterCount -=1;
+            letterCount --;
     }
     if (directionOfmyChar == 4)
     {
         find = readLetter(newWord, map, maxRow, maxColumn, oldChar, row, column - 1, letterCount, moment);
         map[row][column] = oldChar;
         directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-        letterCount -=1;
+            letterCount --;
     }
     if (directionOfmyChar == 5)
     {
         find = readLetter(newWord, map, maxRow, maxColumn, oldChar, row - 1, column - 1, letterCount, moment);
         map[row][column] = oldChar;
         directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-        letterCount -=1;
+            letterCount --;
     }
     if (directionOfmyChar == 6)
     {
         find = readLetter(newWord, map, maxRow, maxColumn, oldChar, row - 1, column, letterCount, moment);
         map[row][column] = oldChar;
         directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-        letterCount -=1;
+            letterCount --;
     }
     if (directionOfmyChar == 7)
     {
         find = readLetter(newWord, map, maxRow, maxColumn, oldChar, row - 1, column + 1, letterCount, moment);
         map[row][column] = oldChar;
         directionOfmyChar = searchFromSide(newWord[0], map, maxRow, maxColumn, row, column);
-        letterCount -=1;
+            letterCount --;
     }
 
     return find;
@@ -430,7 +431,7 @@ int main()
     for (int i = 0; i < personCount; i++)
     {
         agents[i] = initializeAgent(i);
-        int arr[2] = {0, 0}; //index of first letter of my secretWord
+        int arr[2] = {0, 0};//indes of my first letter of my secretword
         bool rescue = false;
 
         if (indexOf(arr, agents[i].hiddenWord[0], agents[i].map, agents[i].row, agents[i].column))
